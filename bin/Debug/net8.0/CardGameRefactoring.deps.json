@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "CardGameRefactoring/1.0.0": {
+        "runtime": {
+          "CardGameRefactoring.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "CardGameRefactoring/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

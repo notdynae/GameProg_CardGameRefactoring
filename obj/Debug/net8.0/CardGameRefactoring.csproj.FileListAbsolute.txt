@@ -1,0 +1,14 @@
+C:\C#\Projects\GameProg_CardGameRefactoring\bin\Debug\net8.0\CardGameRefactoring.exe
+C:\C#\Projects\GameProg_CardGameRefactoring\bin\Debug\net8.0\CardGameRefactoring.deps.json
+C:\C#\Projects\GameProg_CardGameRefactoring\bin\Debug\net8.0\CardGameRefactoring.runtimeconfig.json
+C:\C#\Projects\GameProg_CardGameRefactoring\bin\Debug\net8.0\CardGameRefactoring.dll
+C:\C#\Projects\GameProg_CardGameRefactoring\bin\Debug\net8.0\CardGameRefactoring.pdb
+C:\C#\Projects\GameProg_CardGameRefactoring\obj\Debug\net8.0\CardGameRefactoring.GeneratedMSBuildEditorConfig.editorconfig
+C:\C#\Projects\GameProg_CardGameRefactoring\obj\Debug\net8.0\CardGameRefactoring.AssemblyInfoInputs.cache
+C:\C#\Projects\GameProg_CardGameRefactoring\obj\Debug\net8.0\CardGameRefactoring.AssemblyInfo.cs
+C:\C#\Projects\GameProg_CardGameRefactoring\obj\Debug\net8.0\CardGameRefactoring.csproj.CoreCompileInputs.cache
+C:\C#\Projects\GameProg_CardGameRefactoring\obj\Debug\net8.0\CardGameRefactoring.dll
+C:\C#\Projects\GameProg_CardGameRefactoring\obj\Debug\net8.0\refint\CardGameRefactoring.dll
+C:\C#\Projects\GameProg_CardGameRefactoring\obj\Debug\net8.0\CardGameRefactoring.pdb
+C:\C#\Projects\GameProg_CardGameRefactoring\obj\Debug\net8.0\CardGameRefactoring.genruntimeconfig.cache
+C:\C#\Projects\GameProg_CardGameRefactoring\obj\Debug\net8.0\ref\CardGameRefactoring.dll

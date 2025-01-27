@@ -2,18 +2,18 @@
 
 public class Deck
 {
-	private List<Card> _deck = new List<Card>();
-	private List<Card> _hand = new List<Card>();
+	private List<Card> _deck = [];
+	private List<Card> _hand = [];
 	
 	private void InitializeDecks()
     {
         
         // Add cards to player deck
-        for (int i = 0; i < 5; i++) _deck.Add(new Fireball());
-        for (int i = 0; i < 5; i++) _deck.Add(new IceShield());
-        for (int i = 0; i < 3; i++) _deck.Add(new Heal());
-        for (int i = 0; i < 4; i++) _deck.Add(new Slash());
-        for (int i = 0; i < 3; i++) _deck.Add(new PowerUp());
+        for (var i = 0; i < 5; i++) _deck.Add(new Fireball());
+        for (var i = 0; i < 5; i++) _deck.Add(new IceShield());
+        for (var i = 0; i < 3; i++) _deck.Add(new Heal());
+        for (var i = 0; i < 4; i++) _deck.Add(new Slash());
+        for (var i = 0; i < 3; i++) _deck.Add(new PowerUp());
 
         // Shuffle decks
         ShuffleDeck(_deck);
@@ -25,7 +25,7 @@ public class Deck
         while (n > 1)
         {
             n--;
-            int k = random.Next(n + 1);
+            var k = Rng.Next(n + 1);
             (deck[k], deck[n]) = (deck[n], deck[k]);
         }
     }

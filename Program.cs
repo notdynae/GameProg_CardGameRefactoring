@@ -23,8 +23,6 @@ class Program
     static bool enemyHasFireBuff = false;
     static bool enemyHasIceShield = false;
 
-    public readonly Random random = new();
-
     static void Main(string[] args)
     {
         Console.WriteLine("=== Card Battle Game ===");
@@ -89,7 +87,7 @@ class Program
         while (n > 1)
         {
             n--;
-            int k = random.Next(n + 1);
+            int k = Rng.Next(n + 1);
             string temp = deck[k];
             deck[k] = deck[n];
             deck[n] = temp;

@@ -1,5 +1,6 @@
 ﻿namespace CardGameRefactoring;
 
+// basic static class for useful helper methods
 public static class Helpers
 {
     public static int Clamp(int num, int max) {

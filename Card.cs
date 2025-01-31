@@ -1,5 +1,6 @@
 ﻿namespace CardGameRefactoring;
 
+// abstract card class used to help share the basic properties and functionality across every card
 public abstract class Card
 {
 	// auto-properties
@@ -44,7 +45,7 @@ public abstract class Card
 	}
 }
 
-// ------------------------------------------------------------------- cards
+// cards inheriting the base class, for saving the rewriting of code and making card addition simpler
 
 // Fireball - 30 mana, 40 damage
 internal class Fireball : Card

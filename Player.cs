@@ -1,5 +1,6 @@
 ﻿namespace CardGameRefactoring;
 
+// player class that can be used for the user and the opponent, to cut almost all code that was duplicated for them before
 public class Player(string name)
 {
 	// create instance of deck belonging to the player

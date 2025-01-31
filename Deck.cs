@@ -1,12 +1,13 @@
 ﻿namespace CardGameRefactoring;
 
+// a deck class containing both the stack and the hand, simplifying and keeping these elements together so theyre easier to manage
 public class Deck
 {
     // lists to hold cards in hand, and cards still remaining to be drawn
 	public List<Card> Stack = [];
 	public List<Card> Hand = [];
     
-    // max hand size for deck
+    // max hand size for deck, adjustable
     public int HandSize { get; protected set; } = 5;
     
     //computed properties for managing deck

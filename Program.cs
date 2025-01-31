@@ -23,20 +23,20 @@ class Program
 
             // Player turn
             DisplayGameState();
-            PlayTurn(true);
+            ChooseCard();
 
             if (enemy.IsDead) break;
 
             // Enemy turn
             Console.WriteLine("\nEnemy's turn...");
             Thread.Sleep(1000);
-            PlayTurn(false);
+            RandomCard();
 
             if (player.IsDead) break;
 
             // End of round effects
-            UpdateBuffs(true);
-            UpdateBuffs(false);
+            // UpdateBuffs(true);
+            // UpdateBuffs(false);
 
             Console.WriteLine("\nPress any key for next round...");
             Console.ReadKey();
@@ -83,42 +83,48 @@ class Program
     //     return "Unknown Card";
     // }
 
-    static void PlayTurn(bool isPlayer)
+    // static void PlayTurn()
+    // {
+    //     var hand = isPlayer ? player.Deck.Hand : enemy.Deck.Hand;
+    //
+    //     if (isPlayer)
+    //     {
+    //         
+    //     }
+    //     else
+    //     {
+    //         
+    //     }
+    // }
+    public static void ChooseCard()
     {
-        var hand = isPlayer ? player.Deck.Hand : enemy.Deck.Hand;
-
-        if (isPlayer)
-        {
-            Console.Write("\nChoose a card to play (1-3) or 0 to skip: ");
-            if (!int.TryParse(Console.ReadKey(true).KeyChar.ToString(), out int choice) || choice < 0 || choice > hand.Count)
-            {
-                Console.WriteLine($" {choice} Invalid choice! Turn skipped.");
-                return;
-            }
-            Console.WriteLine(choice.ToString());
-            if (choice == 0) return;
-
-            PlayCard(hand[choice - 1], isPlayer);
-            hand.RemoveAt(choice - 1);
+        var hand = player.Deck.Hand;
+        
+        Console.Write("\nChoose a card to play (1-3) or 0 to skip: ");
+        if (!int.TryParse(Console.ReadKey(true).KeyChar.ToString(), out var choice) || choice < 0 ||
+            choice > hand.Count) {
+            Console.WriteLine($" {choice} Invalid choice! Turn skipped.");
+            return;
         }
-        else
-        {
-            // Simple AI: randomly play a card if enough mana
-            int cardIndex = Rng.Next(hand.Count);
-            string cardToPlay = hand[cardIndex];
 
-            // Check if enough mana
-            if ((cardToPlay == "FireballCard" && enemy.Mana >= 30) ||
-                (cardToPlay == "IceShieldCard" && enemy.Mana >= 20) ||
-                (cardToPlay == "HealCard" && enemy.Mana >= 40) ||
-                (cardToPlay == "SlashCard" && enemy.Mana >= 20) ||
-                (cardToPlay == "PowerUpCard" && enemy.Mana >= 30))
-            {
-                PlayCard(cardToPlay, isPlayer);
-                hand.RemoveAt(cardIndex);
-            }
-        }
+        Console.WriteLine(choice.ToString());
+        if (choice == 0) return;
+        
+        hand[choice - 1].PlayCard(player, enemy);
+        hand.RemoveAt(choice - 1);
     }
+
+    public static void RandomCard()
+    {
+        var hand = enemy.Deck.Hand;
+        
+        // Simple AI: randomly play a card if enough mana
+        var cardIndex = Rng.Next(hand.Count);
+        hand[cardIndex].PlayCard(enemy, player);
+        hand.RemoveAt(cardIndex);
+        
+    }
+
 
     static void PlayCard(string cardName, bool isPlayer)
     {

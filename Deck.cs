@@ -9,16 +9,16 @@ public class Deck
     public int HandSize { get; protected set; } = 3;
 
     public bool HandFull => Hand.Count >= HandSize;
-    public bool DeckEmpty => Stack.Count > 0;
+    public bool DeckEmpty => Stack.Count <= 0;
 
     public void InitializeDeck()
     {
         // Add cards to deck
         for (var i = 0; i < 5; i++) Stack.Add(new Fireball());
-        for (var i = 0; i < 5; i++) Stack.Add(new IceShield());
-        for (var i = 0; i < 3; i++) Stack.Add(new Heal());
-        for (var i = 0; i < 4; i++) Stack.Add(new Slash());
-        for (var i = 0; i < 3; i++) Stack.Add(new PowerUp());
+        // for (var i = 0; i < 5; i++) Stack.Add(new IceShield());
+        // for (var i = 0; i < 3; i++) Stack.Add(new Heal());
+        // for (var i = 0; i < 4; i++) Stack.Add(new Slash());
+        // for (var i = 0; i < 3; i++) Stack.Add(new PowerUp());
 
         // Shuffle deck / fill hand to start game
         ShuffleDeck(Stack);

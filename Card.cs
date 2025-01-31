@@ -16,6 +16,16 @@ public abstract class Card
 		protected set => _damage = value > 0 ? value : 0;
 	}
 	
+	public void PlayCard(Player user, Player target) {
+		
+		if (user.Mana >= Mana) {
+			Console.WriteLine($"Target was dealt {target.TakeDamage(Damage)} damage!");
+			user.Mana -= Mana;
+		} else {
+			Console.WriteLine("Not enough mana!");
+		}
+	}
+	
 	public override string ToString() {
 		return $"{Name} (Costs {Mana} mana): Deal {Damage} damage";
 	}

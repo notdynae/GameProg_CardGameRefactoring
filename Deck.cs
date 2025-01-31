@@ -2,12 +2,14 @@
 
 public class Deck
 {
-    
+    // lists to hold cards in hand, and cards still remaining to be drawn
 	public List<Card> Stack = [];
 	public List<Card> Hand = [];
     
-    public int HandSize { get; protected set; } = 3;
-
+    // max hand size for deck
+    public int HandSize { get; protected set; } = 5;
+    
+    //computed properties for managing deck
     public bool HandFull => Hand.Count >= HandSize;
     public bool DeckEmpty => Stack.Count <= 0;
 
@@ -15,10 +17,11 @@ public class Deck
     {
         // Add cards to deck
         for (var i = 0; i < 5; i++) Stack.Add(new Fireball());
-        // for (var i = 0; i < 5; i++) Stack.Add(new IceShield());
-        // for (var i = 0; i < 3; i++) Stack.Add(new Heal());
-        // for (var i = 0; i < 4; i++) Stack.Add(new Slash());
-        // for (var i = 0; i < 3; i++) Stack.Add(new PowerUp());
+        for (var i = 0; i < 5; i++) Stack.Add(new IceShield());
+        for (var i = 0; i < 3; i++) Stack.Add(new Heal());
+        for (var i = 0; i < 4; i++) Stack.Add(new Slash());
+        for (var i = 0; i < 3; i++) Stack.Add(new PowerUp());
+        for (var i = 0; i < 5; i++) Stack.Add(new Siphon());
 
         // Shuffle deck / fill hand to start game
         ShuffleDeck(Stack);

@@ -2,23 +2,30 @@
 
 public class Deck
 {
-	private List<Card> _deck = [];
-	private List<Card> _hand = [];
-	
-	private void InitializeDecks()
-    {
-        
-        // Add cards to player deck
-        for (var i = 0; i < 5; i++) _deck.Add(new Fireball());
-        for (var i = 0; i < 5; i++) _deck.Add(new IceShield());
-        for (var i = 0; i < 3; i++) _deck.Add(new Heal());
-        for (var i = 0; i < 4; i++) _deck.Add(new Slash());
-        for (var i = 0; i < 3; i++) _deck.Add(new PowerUp());
+    
+	public List<Card> Stack = [];
+	public List<Card> Hand = [];
+    
+    public int HandSize { get; protected set; } = 3;
 
-        // Shuffle decks
-        ShuffleDeck(_deck);
+    public bool HandFull => Hand.Count >= HandSize;
+    public bool DeckEmpty => Stack.Count > 0;
+
+    public void InitializeDeck()
+    {
+        // Add cards to deck
+        for (var i = 0; i < 5; i++) Stack.Add(new Fireball());
+        for (var i = 0; i < 5; i++) Stack.Add(new IceShield());
+        for (var i = 0; i < 3; i++) Stack.Add(new Heal());
+        for (var i = 0; i < 4; i++) Stack.Add(new Slash());
+        for (var i = 0; i < 3; i++) Stack.Add(new PowerUp());
+
+        // Shuffle deck / fill hand to start game
+        ShuffleDeck(Stack);
+        DrawCards();
     }
 
+    // shuffles order of cards in deck
     private void ShuffleDeck(List<Card> deck)
     {
         int n = deck.Count;
@@ -30,12 +37,13 @@ public class Deck
         }
     }
     
+    // populates hand with cards until 
     public void DrawCards()
     {
-        while (_hand.Count < 3 && _deck.Count > 0)
+        while (!HandFull && !DeckEmpty)
         {
-            _hand.Add(_deck[0]);
-            _deck.RemoveAt(0);
+            Hand.Add(Stack[0]);
+            Stack.RemoveAt(0);
         }
     }
 }

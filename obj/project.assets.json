@@ -8,25 +8,32 @@
     "net8.0": []
   },
   "packageFolders": {
-    "C:\\Users\\w0491838\\.nuget\\packages\\": {}
+    "C:\\Users\\starr\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\C#\\Projects\\GameProg_CardGameRefactoring\\CardGameRefactoring.csproj",
+      "projectUniqueName": "C:\\Stuff\\Creation\\Code\\C#\\Projects\\GameProg-CardGameRefactoring\\CardGameRefactoring.csproj",
       "projectName": "CardGameRefactoring",
-      "projectPath": "C:\\C#\\Projects\\GameProg_CardGameRefactoring\\CardGameRefactoring.csproj",
-      "packagesPath": "C:\\Users\\w0491838\\.nuget\\packages\\",
-      "outputPath": "C:\\C#\\Projects\\GameProg_CardGameRefactoring\\obj\\",
+      "projectPath": "C:\\Stuff\\Creation\\Code\\C#\\Projects\\GameProg-CardGameRefactoring\\CardGameRefactoring.csproj",
+      "packagesPath": "C:\\Users\\starr\\.nuget\\packages\\",
+      "outputPath": "C:\\Stuff\\Creation\\Code\\C#\\Projects\\GameProg-CardGameRefactoring\\obj\\",
       "projectStyle": "PackageReference",
+      "UsingMicrosoftNETSdk": false,
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\w0491838\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\starr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "https://api.nuget.org/v3/index.json": {}
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {}
       },
       "frameworks": {
         "net8.0": {
@@ -64,7 +71,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.102/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

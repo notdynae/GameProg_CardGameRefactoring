@@ -6,46 +6,33 @@ using System.Threading;
 
 class Program
 {
-    static List<string> playerDeck = new List<string>();
-    static List<string> playerHand = new List<string>();
-    static List<string> enemyDeck = new List<string>();
-    static List<string> enemyHand = new List<string>();
+    static Player player = new("Player");
+    static Player enemy = new("Enemy");
 
-    static int playerHealth = 100;
-    static int playerMana = 100;
-    static int playerShield = 0;
-    static bool playerHasFireBuff = false;
-    static bool playerHasIceShield = false;
-
-    static int enemyHealth = 100;
-    static int enemyMana = 100;
-    static int enemyShield = 0;
-    static bool enemyHasFireBuff = false;
-    static bool enemyHasIceShield = false;
 
     static void Main(string[] args)
     {
-        Console.WriteLine("=== Card Battle Game ===");
-        InitializeDecks();
+        
+        InitializeGame();
 
-        while (playerHealth > 0 && enemyHealth > 0)
+        while (!player.IsDead && !enemy.IsDead)
         {
             // Draw cards if needed
-            if (playerHand.Count < 3) PlayerDrawCards();
-            if (enemyHand.Count < 3) EnemyDrawCards();
+            player.Deck.DrawCards();
+            enemy.Deck.DrawCards();
 
             // Player turn
             DisplayGameState();
             PlayTurn(true);
 
-            if (enemyHealth <= 0) break;
+            if (enemy.IsDead) break;
 
             // Enemy turn
             Console.WriteLine("\nEnemy's turn...");
             Thread.Sleep(1000);
             PlayTurn(false);
 
-            if (playerHealth <= 0) break;
+            if (player.IsDead) break;
 
             // End of round effects
             UpdateBuffs(true);
@@ -56,93 +43,49 @@ class Program
             Console.Clear();
         }
 
-        Console.WriteLine(playerHealth <= 0 ? "You Lost!" : "You Won!");
+        Console.WriteLine(player.IsDead ? "You Lost!" : "You Won!");
         Console.ReadKey();
     }
 
-    static void InitializeDecks()
-    {
-        // Add cards to player deck
-        for (int i = 0; i < 5; i++) playerDeck.Add("FireballCard");
-        for (int i = 0; i < 5; i++) playerDeck.Add("IceShieldCard");
-        for (int i = 0; i < 3; i++) playerDeck.Add("HealCard");
-        for (int i = 0; i < 4; i++) playerDeck.Add("SlashCard");
-        for (int i = 0; i < 3; i++) playerDeck.Add("PowerUpCard");
-
-        // Add cards to enemy deck
-        for (int i = 0; i < 5; i++) enemyDeck.Add("FireballCard");
-        for (int i = 0; i < 5; i++) enemyDeck.Add("IceShieldCard");
-        for (int i = 0; i < 3; i++) enemyDeck.Add("HealCard");
-        for (int i = 0; i < 4; i++) enemyDeck.Add("SlashCard");
-        for (int i = 0; i < 3; i++) enemyDeck.Add("PowerUpCard");
-
-        // Shuffle decks
-        ShuffleDeck(playerDeck);
-        ShuffleDeck(enemyDeck);
-    }
-
-    static void ShuffleDeck(List<string> deck)
-    {
-        int n = deck.Count;
-        while (n > 1)
-        {
-            n--;
-            int k = Rng.Next(n + 1);
-            string temp = deck[k];
-            deck[k] = deck[n];
-            deck[n] = temp;
-        }
-    }
-
-    static void PlayerDrawCards()
-    {
-        while (playerHand.Count < 3 && playerDeck.Count > 0)
-        {
-            playerHand.Add(playerDeck[0]);
-            playerDeck.RemoveAt(0);
-        }
-    }
-
-    static void EnemyDrawCards()
-    {
-        while (enemyHand.Count < 3 && enemyDeck.Count > 0)
-        {
-            enemyHand.Add(enemyDeck[0]);
-            enemyDeck.RemoveAt(0);
-        }
+    static void InitializeGame() {
+        
+        Console.WriteLine("=== Card Battle Game ===");
+        
+        player.Deck.InitializeDeck();
+        enemy.Deck.InitializeDeck();
     }
 
     static void DisplayGameState()
     {
-        Console.WriteLine($"\nPlayer Health: {playerHealth} | Mana: {playerMana} | Shield: {playerShield}");
-        Console.WriteLine($"Enemy Health: {enemyHealth} | Mana: {enemyMana} | Shield: {enemyShield}");
+        Console.WriteLine($"\nPlayer Health: {player.Health} | Mana: {player.Mana} | Shield: {player.Shield}");
+        Console.WriteLine($"Enemy Health: {enemy.Health} | Mana: {enemy.Mana} | Shield: {enemy.Shield}");
 
         Console.WriteLine("\nYour hand:");
-        for (int i = 0; i < playerHand.Count; i++)
+        for (int i = 0; i < player.Deck.Hand.Count; i++)
         {
-            Console.WriteLine($"{i + 1}. {GetCardDescription(playerHand[i])}");
+            Console.WriteLine($"{i + 1}. {player.Deck.Hand[i]}");
         }
     }
 
-    static string GetCardDescription(string cardName)
-    {
-        // Long if-else chain for card descriptions
-        if (cardName == "FireballCard")
-            return "Fireball (Costs 30 mana): Deal 40 damage";
-        else if (cardName == "IceShieldCard")
-            return "Ice Shield (Costs 20 mana): Gain 30 shield and ice protection";
-        else if (cardName == "HealCard")
-            return "Heal (Costs 40 mana): Restore 40 health";
-        else if (cardName == "SlashCard")
-            return "Slash (Costs 20 mana): Deal 20 damage";
-        else if (cardName == "PowerUpCard")
-            return "Power Up (Costs 30 mana): Gain fire buff for 2 turns";
-        return "Unknown Card";
-    }
+    // static string GetCardDescription(string cardName)
+    // {
+    //     // Long if-else chain for card descriptions
+    //     if (cardName == "FireballCard")
+    //         return "Fireball (Costs 30 mana): Deal 40 damage";
+    //     else if (cardName == "IceShieldCard")
+    //         return "Ice Shield (Costs 20 mana): Gain 30 shield and ice protection";
+    //     else if (cardName == "HealCard")
+    //         return "Heal (Costs 40 mana): Restore 40 health";
+    //     else if (cardName == "SlashCard")
+    //         return "Slash (Costs 20 mana): Deal 20 damage";
+    //     else if (cardName == "PowerUpCard")
+    //         return "Power Up (Costs 30 mana): Gain fire buff for 2 turns";
+    //     return "Unknown Card";
+    // }
 
     static void PlayTurn(bool isPlayer)
     {
-        var hand = isPlayer ? playerHand : enemyHand;
+        var hand = isPlayer ? player.Deck.Hand : enemy.Deck.Hand;
 
         if (isPlayer)
         {
@@ -161,15 +104,15 @@ class Program
         else
         {
             // Simple AI: randomly play a card if enough mana
-            int cardIndex = random.Next(hand.Count);
+            int cardIndex = Rng.Next(hand.Count);
             string cardToPlay = hand[cardIndex];
 
             // Check if enough mana
-            if ((cardToPlay == "FireballCard" && enemyMana >= 30) ||
-                (cardToPlay == "IceShieldCard" && enemyMana >= 20) ||
-                (cardToPlay == "HealCard" && enemyMana >= 40) ||
-                (cardToPlay == "SlashCard" && enemyMana >= 20) ||
-                (cardToPlay == "PowerUpCard" && enemyMana >= 30))
+            if ((cardToPlay == "FireballCard" && enemy.Mana >= 30) ||
+                (cardToPlay == "IceShieldCard" && enemy.Mana >= 20) ||
+                (cardToPlay == "HealCard" && enemy.Mana >= 40) ||
+                (cardToPlay == "SlashCard" && enemy.Mana >= 20) ||
+                (cardToPlay == "PowerUpCard" && enemy.Mana >= 30))
             {
                 PlayCard(cardToPlay, isPlayer);
                 hand.RemoveAt(cardIndex);
@@ -184,28 +127,28 @@ class Program
         {
             if (isPlayer)
             {
-                if (playerMana >= 30)
+                if (player.Mana >= 30)
                 {
                     int damage = 40;
-                    if (playerHasFireBuff) damage *= 2;
-                    if (enemyHasIceShield) damage /= 2;
+                    if (player.HasFireBuff) damage *= 2;
+                    if (enemy.HasIceShield) damage /= 2;
 
-                    if (enemyShield > 0)
+                    if (enemy.Shield > 0)
                     {
-                        if (enemyShield >= damage)
+                        if (enemy.Shield >= damage)
                         {
-                            enemyShield -= damage;
+                            enemy.Shield -= damage;
                             damage = 0;
                         }
                         else
                         {
-                            damage -= enemyShield;
-                            enemyShield = 0;
+                            damage -= enemy.Shield;
+                            enemy.Shield = 0;
                         }
                     }
 
-                    enemyHealth -= damage;
-                    playerMana -= 30;
+                    enemy.Health -= damage;
+                    player.Mana -= 30;
                     Console.WriteLine($"Player casts Fireball for {damage} damage!");
                 }
                 else
@@ -216,28 +159,28 @@ class Program
             }
             else
             {
-                if (enemyMana >= 30)
+                if (enemy.Mana >= 30)
                 {
                     int damage = 40;
-                    if (enemyHasFireBuff) damage *= 2;
-                    if (playerHasIceShield) damage /= 2;
+                    if (enemy.HasFireBuff) damage *= 2;
+                    if (player.HasIceShield) damage /= 2;
 
-                    if (playerShield > 0)
+                    if (player.Shield > 0)
                     {
-                        if (playerShield >= damage)
+                        if (player.Shield >= damage)
                         {
-                            playerShield -= damage;
+                            player.Shield -= damage;
                             damage = 0;
                         }
                         else
                         {
-                            damage -= playerShield;
-                            playerShield = 0;
+                            damage -= player.Shield;
+                            player.Shield = 0;
                         }
                     }
 
-                    playerHealth -= damage;
-                    enemyMana -= 30;
+                    player.Health -= damage;
+                    enemy.Mana -= 30;
                     Console.WriteLine($"Enemy casts Fireball for {damage} damage!");
                 }
                 else return;
@@ -247,11 +190,11 @@ class Program
         {
             if (isPlayer)
             {
-                if (playerMana >= 20)
+                if (player.Mana >= 20)
                 {
-                    playerShield += 30;
-                    playerHasIceShield = true;
-                    playerMana -= 20;
+                    player.Shield += 30;
+                    player.HasIceShield = true;
+                    player.Mana -= 20;
                     Console.WriteLine("Player gains Ice Shield!");
                 }
                 else
@@ -262,11 +205,11 @@ class Program
             }
             else
             {
-                if (enemyMana >= 20)
+                if (enemy.Mana >= 20)
                 {
-                    enemyShield += 30;
-                    enemyHasIceShield = true;
-                    enemyMana -= 20;
+                    enemy.Shield += 30;
+                    enemy.HasIceShield = true;
+                    enemy.Mana -= 20;
                     Console.WriteLine("Enemy gains Ice Shield!");
                 }
                 else return;
@@ -276,10 +219,10 @@ class Program
         {
             if (isPlayer)
             {
-                if (playerMana >= 40)
+                if (player.Mana >= 40)
                 {
-                    playerHealth = Math.Min(100, playerHealth + 40);
-                    playerMana -= 40;
+                    player.Health += 40;
+                    player.Mana -= 40;
                     Console.WriteLine("Player heals 40 health!");
                 }
                 else
@@ -290,10 +233,10 @@ class Program
             }
             else
             {
-                if (enemyMana >= 40)
+                if (enemy.Mana >= 40)
                 {
-                    enemyHealth = Math.Min(100, enemyHealth + 40);
-                    enemyMana -= 40;
+                    enemy.Health += 40;
+                    enemy.Mana -= 40;
                     Console.WriteLine("Enemy heals 40 health!");
                 }
                 else return;
@@ -303,27 +246,27 @@ class Program
         {
             if (isPlayer)
             {
-                if (playerMana >= 20)
+                if (player.Mana >= 20)
                 {
                     int damage = 20;
-                    if (playerHasFireBuff) damage *= 2;
+                    if (player.HasFireBuff) damage *= 2;
 
-                    if (enemyShield > 0)
+                    if (enemy.Shield > 0)
                     {
-                        if (enemyShield >= damage)
+                        if (enemy.Shield >= damage)
                         {
-                            enemyShield -= damage;
+                            enemy.Shield -= damage;
                             damage = 0;
                         }
                         else
                         {
-                            damage -= enemyShield;
-                            enemyShield = 0;
+                            damage -= enemy.Shield;
+                            enemy.Shield = 0;
                         }
                     }
 
-                    enemyHealth -= damage;
-                    playerMana -= 20;
+                    enemy.Health -= damage;
+                    player.Mana -= 20;
                     Console.WriteLine($"Player slashes for {damage} damage!");
                 }
                 else
@@ -334,27 +277,27 @@ class Program
             }
             else
             {
-                if (enemyMana >= 20)
+                if (enemy.Mana >= 20)
                 {
                     int damage = 20;
-                    if (enemyHasFireBuff) damage *= 2;
+                    if (enemy.HasFireBuff) damage *= 2;
 
-                    if (playerShield > 0)
+                    if (player.Shield > 0)
                     {
-                        if (playerShield >= damage)
+                        if (player.Shield >= damage)
                         {
-                            playerShield -= damage;
+                            player.Shield -= damage;
                             damage = 0;
                         }
                         else
                         {
-                            damage -= playerShield;
-                            playerShield = 0;
+                            damage -= player.Shield;
+                            player.Shield = 0;
                         }
                     }
 
-                    playerHealth -= damage;
-                    enemyMana -= 20;
+                    player.Health -= damage;
+                    enemy.Mana -= 20;
                     Console.WriteLine($"Enemy slashes for {damage} damage!");
                 }
                 else return;
@@ -364,10 +307,10 @@ class Program
         {
             if (isPlayer)
             {
-                if (playerMana >= 30)
+                if (player.Mana >= 30)
                 {
-                    playerHasFireBuff = true;
-                    playerMana -= 30;
+                    player.HasFireBuff = true;
+                    player.Mana -= 30;
                     Console.WriteLine("Player gains Fire Buff!");
                 }
                 else
@@ -378,10 +321,10 @@ class Program
             }
             else
             {
-                if (enemyMana >= 30)
+                if (enemy.Mana >= 30)
                 {
-                    enemyHasFireBuff = true;
-                    enemyMana -= 30;
+                    enemy.HasFireBuff = true;
+                    enemy.Mana -= 30;
                     Console.WriteLine("Enemy gains Fire Buff!");
                 }
                 else return;
@@ -393,15 +336,15 @@ class Program
     {
         if (isPlayer)
         {
-            if (playerHasFireBuff) playerHasFireBuff = false;
-            if (playerHasIceShield) playerHasIceShield = false;
-            playerMana = Math.Min(100, playerMana + 20);
+            if (player.HasFireBuff) player.HasFireBuff = false;
+            if (player.HasIceShield) player.HasIceShield = false;
+            player.Mana += 20;
         }
         else
         {
-            if (enemyHasFireBuff) enemyHasFireBuff = false;
-            if (enemyHasIceShield) enemyHasIceShield = false;
-            enemyMana = Math.Min(100, enemyMana + 20);
+            if (enemy.HasFireBuff) enemy.HasFireBuff = false;
+            if (enemy.HasIceShield) enemy.HasIceShield = false;
+            enemy.Mana += 20;
         }
     }
 }
